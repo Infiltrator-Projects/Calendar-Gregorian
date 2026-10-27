@@ -56,6 +56,14 @@ fields_to_jdn(const InfiltratrTemporalCalendarFields *fields)
         signed_year(fields), fields->month, fields->day);
 }
 
+/* The ICU-backed formatter and the arithmetic callbacks share this
+ * UTC-noon domain. Reject before narrowing extreme JDNs into civil fields. */
+static bool provider_jdn_supported(int64_t jdn)
+{
+    return jdn >= INT64_C(2440588) - INT64_C(100000000) &&
+           jdn <= INT64_C(2440588) + INT64_C(99999999);
+}
+
 static bool
 provider_fields(const InfiltratrTemporalCalendarProvider *provider,
                 int64_t jdn,
@@ -66,7 +74,8 @@ provider_fields(const InfiltratrTemporalCalendarProvider *provider,
     gint day;
 
     (void)provider;
-    if (fields == NULL || !calendar_gregorian_jdn_representable(jdn))
+    if (fields == NULL || !provider_jdn_supported(jdn) ||
+        !calendar_gregorian_jdn_representable(jdn))
         return false;
 
     calendar_jdn_to_gregorian(jdn, &year, &month, &day);
@@ -106,7 +115,8 @@ provider_period_start(const InfiltratrTemporalCalendarProvider *provider,
         return false;
     fields.day = 1;
     const int64_t candidate = fields_to_jdn(&fields);
-    if (!calendar_gregorian_jdn_representable(candidate)) return false;
+    if (!provider_jdn_supported(candidate) ||
+        !calendar_gregorian_jdn_representable(candidate)) return false;
     *result = candidate;
     return true;
 }
@@ -138,7 +148,8 @@ provider_add_periods(const InfiltratrTemporalCalendarProvider *provider,
         fields.day,
         calendar_gregorian_month_length(year, fields.month));
     const int64_t candidate = fields_to_jdn(&fields);
-    if (!calendar_gregorian_jdn_representable(candidate)) return false;
+    if (!provider_jdn_supported(candidate) ||
+        !calendar_gregorian_jdn_representable(candidate)) return false;
     *result = candidate;
     return true;
 }
@@ -162,7 +173,8 @@ provider_add_years(const InfiltratrTemporalCalendarProvider *provider,
         fields.day,
         calendar_gregorian_month_length(year, fields.month));
     const int64_t candidate = fields_to_jdn(&fields);
-    if (!calendar_gregorian_jdn_representable(candidate)) return false;
+    if (!provider_jdn_supported(candidate) ||
+        !calendar_gregorian_jdn_representable(candidate)) return false;
     *result = candidate;
     return true;
 }
