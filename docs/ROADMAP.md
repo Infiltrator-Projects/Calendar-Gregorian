@@ -1,21 +1,23 @@
 # Gregorian Calendar — independent resource roadmap
 
-## Starting point
+## Source-copy baseline completed
 
-This is one of 54 new single-resource repositories (31 calendars, 23 clocks). The current implementation is located in [Libraries/Common](https://github.com/Infiltrator-Projects/Libraries/tree/main/resources/temporal), in a 54-resource combined build and package. This repository is documentation-only.
+- [x] Identify provider `gregorian` in Common 1.19.78 and record its exact original revision.
+- [x] Copy the provider-specific implementation into this repository.
+- [x] Copy the shared supporting code it needs locally, retaining the originals in Common.
+- [x] Exclude the other executable provider implementations from the copy.
+- [x] Add a local build for `Gregorian Calendar.so` and verify native ABI identity.
+- [x] Compare behaviour with the original module and retain focused regression fixtures.
+- [x] Update documentation to describe a working source copy.
 
-## Migration milestones
+## Later independent delivery
 
-- [ ] Establish precise upstream source/test provenance and model-specific scope for `gregorian`.
-- [ ] Move authoritative provider implementation into this repository while preserving shared Common mechanisms; do not create competing implementations.
-- [ ] Add its independent portable build, source/version metadata and ABI verification.
-- [ ] Migrate model-specific, failure-boundary, locale and historical regression tests.
-- [ ] Build one canonical `Gregorian Calendar.so` and one independently owned installer/package, with clean uninstall and upgrade.
-- [ ] Coordinate Common's package manifest so its existing combined package no longer owns the migrated file.
-- [ ] Qualify Debian 12/13 and Ubuntu 24.04-compatible runtime environments, plus actual consumer discovery/formatting/navigation.
-- [ ] Publish release artifacts only after reproducibility, installation, integration and regression evidence is recorded.
-- [ ] Update documentation to reflect verified code ownership and release status.
+- [ ] Extend independent historical/model and environment qualification as required.
+- [ ] Add standalone release automation, versioning and artifact reproducibility evidence.
+- [ ] Create a package/installer with verified upgrade and removal behaviour.
+- [ ] Coordinate any installed package ownership transition as a separate change; Common is intentionally left intact by this task.
+- [ ] Verify installed consumer integration and publish qualified releases.
 
-## Non-goals of documentation setup
+The completed work is a source copy and local build/test baseline. It does not remove Common's implementation or complete a package/installer transition.
 
-This stage creates no implementation, `.so`, package, release, workflow or installer; it changes no other repository and cannot be counted as functional completion.
+See [source provenance](../SOURCE.md) and [recorded results](../VALIDATION-RESULTS.json).

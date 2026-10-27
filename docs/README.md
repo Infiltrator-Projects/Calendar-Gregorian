@@ -1,11 +1,12 @@
-# Documentation index — Gregorian Calendar
+# Gregorian Calendar — documentation index
 
-This repository currently contains documentation only. Executable code remains upstream in Common.
+This repository contains source for exactly one `calendar` provider, stable ID `gregorian`. The Common original is retained.
 
-- [Repository overview](../README.md) — identity, installation target and status.
-- [Model](MODEL.md) — the resource's intended date model and historical limitations.
-- [Architecture](ARCHITECTURE.md) — ABI, dependencies, source ownership and deployment.
-- [Validation](VALIDATION.md) — acceptance criteria and test evidence still required.
-- [Roadmap](ROADMAP.md) — steps for making this repository independently buildable and releasable.
-
-**Authority:** executable Common source and tests determine current behaviour; this documentation records the current contract and proposed ownership boundary, not completed migration.
+- [Overview](../README.md) — identity, model, current status and source links.
+- [Model](MODEL.md) — maintained interpretation and fidelity boundaries.
+- [Architecture](ARCHITECTURE.md) — local source, helpers and native ABI.
+- [Validation](VALIDATION.md) — completed copy checks and remaining qualification.
+- [Roadmap](ROADMAP.md) — copy baseline and later packaging/release work.
+- [Source copy record](../SOURCE.md) — original revision, local build and copying method.
+- [Source manifest](../SOURCE-MANIFEST.json) — file provenance and hashes.
+- [Recorded results](../VALIDATION-RESULTS.json) — exact checks and tested host.

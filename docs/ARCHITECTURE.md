@@ -1,32 +1,32 @@
-# Gregorian Calendar — architecture
+# Gregorian Calendar — architecture and source boundaries
 
-## Current ownership versus target ownership
+## Current source ownership
 
-**Currently implemented:** [Libraries/Common](https://github.com/Infiltrator-Projects/Libraries/tree/main/resources/temporal) compiles this provider from its `resources/temporal` tree and ships it inside the combined `infiltrator-calendar-resources` package. The new repository currently has Markdown only.
+This repository now contains a local, independently buildable **copy** of provider `gregorian`. `src/provider.c` contains the selected native ABI adapter. The other files under `src/` contain only reached supporting implementation definitions; `include/` contains the required Common ABI headers and this provider's build configuration.
 
-**Intended:** this repository becomes the source, build, test, package and release owner for exactly one calendar provider (`gregorian`), without embedding other calendar implementations. Truly shared APIs, coordinate arithmetic, resource ABI validation and runtime discovery remain in Common.
+The original implementation, combined build and installed package remain in Common. Nothing is deleted from Common, and no current package ownership is changed.
+
+## Copied shared code
+
+Required shared helpers are copied locally, including arithmetic, date coordinates, localization or ICU bridging where this provider uses them. Multiple provider repositories intentionally contain their own copies of these helpers. Combined implementation files were selected and reduced to this provider's reachable operations and data; unrelated executable provider implementations are excluded.
+
+Public ABI declarations preserve compatibility with existing consumers. Private selector numeric values are retained where needed, while the other private selectors are removed. No other provider is registered or exported by this module.
 
 ## Native resource contract
 
-- **Installation path:** `/System/Resources/Calendars/Gregorian Calendar.so`.
-- **Identity:** versioned metadata through `infiltratr_temporal_resource_metadata_v1`; stable ID `gregorian`, kind calendar, canonical display name.
-- **Executable contract:** validated calendar provider ABI for fields, formatting and navigation; metadata alone is insufficient.
-- **Discovery:** Common scans native system resource directories, rejects unsupported objects, symlinks, malformed/wrong-kind modules and duplicate identities according to the documented runtime policy.
-- **Consumers:** Calendar, Files, System Settings and the desktop resolve the same installed provider through Common, rather than bundling copies.
-- **Trust boundary:** a native `.so` executes in the loading application's process. Only trusted, system-installed resources are within the present contract.
+- **Stable identity:** `gregorian`, kind `calendar`, canonical name `Gregorian Calendar`.
+- **Metadata entry:** `infiltratr_temporal_resource_metadata_v1`.
+- **Executable entry:** `infiltratr_temporal_calendar_provider_v1`.
+- **Canonical file:** `Gregorian Calendar.so`.
+- **Native directory:** `/System/Resources/Calendars`.
+- **Consumers:** Common's validated loader, used by Calendar, Files, System Settings and other compatible clients.
+- **Failure boundaries:** a missing or invalid provider is unavailable; it must not be replaced by a different provider or alter canonical instants.
+- **Trust boundary:** native module code executes in the loading process and is intended for trusted installed resources.
 
-## Build and packaging boundary
+## Build and packaging
 
-The authoritative build currently lives in `Libraries/resources/temporal/Makefile`, with executable contract tests in `Libraries/resources/temporal/tests/test-calendars.c`. Direct compilation must produce the canonical filename without aliases or post-build renames. Portable binaries must not silently inherit the build host's `-march=native` requirements. Shared engine helpers may be linked without pulling in unrelated calendar algorithms.
+The local `Makefile` builds one canonically named shared object directly from this repository, with hidden helper symbols and only the two versioned native entry points exported. It requires no Common checkout, Common archive, sibling resource repository or source download.
 
-Independent packaging requires coordinated retirement or splitting of the combined package's ownership of this exact path. Two Debian packages must never claim the same installed resource simultaneously. Retain existing stable IDs and ABI contracts throughout migration.
+The existing Common resource package continues to own the installed path. An independent installer, package handover, release workflow and published release are separate work. This source copy does not claim those steps are complete.
 
-## Failure boundaries
-
-If this provider is missing or invalid it is unavailable; consumers must not silently substitute another calendar. A fault in this optional provider must not invalidate unrelated providers. No source migration, packaging transition or ABI change is made by these Markdown documents.
-
-- [Common temporal resource source](https://github.com/Infiltrator-Projects/Libraries/tree/main/resources/temporal)
-- [Resource build definition](https://github.com/Infiltrator-Projects/Libraries/blob/main/resources/temporal/Makefile)
-- [Chronology and time model contracts](https://github.com/Infiltrator-Projects/Calendar/blob/main/docs/MODELS.md)
-- [Historical fidelity audit](https://github.com/Infiltrator-Projects/Libraries/blob/main/docs/TEMPORAL_HISTORICAL_FIDELITY.md)
-- [Runtime provider contract](https://github.com/Infiltrator-Projects/Libraries/blob/main/docs/TEMPORAL_PROVIDERS.md)
+See [provenance](../SOURCE.md), [file manifest](../SOURCE-MANIFEST.json), [model](MODEL.md) and [validation](VALIDATION.md).

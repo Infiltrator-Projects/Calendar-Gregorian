@@ -14,7 +14,11 @@ Gregorian civil arithmetic. This project represents one independently installabl
 
 ## Current project status
 
-**Documentation-only repository.** The implementation, tests and combined Debian packaging are still owned by [Libraries/Common](https://github.com/Infiltrator-Projects/Libraries/tree/main/resources/temporal). No independent build, installer, release or successful standalone qualification is claimed here yet. Do not confuse repository creation with migration or release readiness.
+**Source copied and build verified.** This repository contains the implementation of `gregorian`, the supporting code it needs, a one-provider `Makefile` and focused regression fixtures. The copy is based on Common 1.19.78 at `8d60662114e3`; the original Common source remains unchanged.
+
+Run `make` to produce `build/Gregorian Calendar.so` and `make check` to run this provider's checks. No Common checkout or Common archive is required. The current combined Common package and its installation ownership remain in place; this copy does not introduce an independent installer or release.
+
+See [source provenance and build details](SOURCE.md), [source manifest](SOURCE-MANIFEST.json) and [recorded validation](VALIDATION-RESULTS.json).
 
 ## Documents
 

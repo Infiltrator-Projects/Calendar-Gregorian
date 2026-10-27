@@ -1,28 +1,24 @@
-# Gregorian Calendar — validation plan
+# Gregorian Calendar — copy validation
 
-**Evidence status:** no standalone CI, installer, published package, installed-system test or successful migration has been established in this repository. These are acceptance criteria, not completed test results.
+## Completed checks
 
-## Required checks
+- [x] Record Common 1.19.78 source revision `8d60662114e3052380f6f88ad3cacd9732ae7131` and original/copy file hashes.
+- [x] Copy the selected `gregorian` provider and the supporting definitions and headers it needs; retain Common unchanged.
+- [x] Build the canonical `Gregorian Calendar.so` independently with strict C11 warnings treated as errors.
+- [x] Verify metadata, callback ABI, stable identity, canonical name and the two exported entry points.
+- [x] Match the original provider across **883** applicable callback observations, including invalid inputs and boundaries.
+- [x] Retain **84** focused baseline fixtures; run them with `make check`.
+- [x] Pass Common's existing module tests against the complete copied resource set: 6 calendar tests and 16 clock tests.
 
-- [ ] Migrate only the `gregorian` provider implementation and required shared API dependencies, retaining historical provenance.
-- [ ] Build one loadable ELF `.so` named exactly `Gregorian Calendar.so` with portable target ABI.
-- [ ] Validate versioned metadata (stable ID, kind, name) and all executable calendar provider entry points.
-- [ ] Compare date fields, localized rendering, period boundaries and next/previous navigation against existing Common tests and independent calendar references.
-- [ ] Confirm identical domain rejection for fields, formatting and navigation; numerical extremes fail without overflow, hangs or output mutation.
-- [ ] Confirm missing/invalid resource is unavailable without fallback and without breaking other installed resources.
-- [ ] Test the installed compiled bytes, not merely a separately rebuilt test copy.
-- [ ] Test reproducibility, debug-symbol separation, clean installation, upgrades, rollback and removal.
-- [ ] Verify the package owns only `/System/Resources/Calendars/Gregorian Calendar.so` plus its own nonconflicting metadata/documentation, and does not conflict with the former combined package.
-- [ ] Run integration tests with Calendar, Files and System Settings where supported.
+The comparison verifies that splitting and copying the code preserved the existing behaviour. Model and historical-reference claims remain limited to [MODEL.md](MODEL.md) and the original evidence; these are not newly independently proved by comparing an implementation with its origin.
 
-## Historical/model-specific regression
+## Remaining qualification
 
-**Expected implemented model:** Resource-owned proleptic Gregorian arithmetic across the representable civil-date domain; locale-sensitive formatting remains ICU/CLDR-backed.
+- [ ] Add independent historical/reference evidence beyond the preserved model audit where required.
+- [ ] Qualify other compiler, operating-system, runtime and architecture baselines.
+- [ ] Add and qualify standalone release CI if independent releases are requested.
+- [ ] Create and test an independent package/installer, including upgrade/removal and any coordinated package ownership transition.
+- [ ] Test actual installed consumer discovery through the native resource directory.
+- [ ] Publish only artifacts from an explicitly qualified release state.
 
-**Do not overclaim:** Before local adoption is proleptic; country-specific changeover is not modeled.
-
-Inspect the upstream calendar regression suite at [test-calendars.c](https://github.com/Infiltrator-Projects/Libraries/blob/main/resources/temporal/tests/test-calendars.c) and the chronology/model matrix in [Calendar docs](https://github.com/Infiltrator-Projects/Calendar/blob/main/docs/MODELS.md). Individual accepted reference cases must be recorded with expected fields, formatting, operations and supported/unsupported date boundaries when the tests are migrated.
-
-## Evidence policy
-
-Check a box only with a reproducible commit, test run, environment and result. Upstream qualification of the combined package is not proof of this future standalone repository's packaging or release.
+No Common files are removed or modified by this copy. See [source record](../SOURCE.md) and [machine-readable results](../VALIDATION-RESULTS.json) for exact evidence and host limitations.
