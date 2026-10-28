@@ -1,32 +1,15 @@
-# Gregorian Calendar — architecture and source boundaries
+# Gregorian Calendar — provider architecture and Common integration
 
-## Current source ownership
+Calendar-Gregorian owns its executable chronology provider, Gregorian-specific presentation,
+ICU adapter and model tests. Common owns public resource ABI, checked arithmetic, general
+date coordinate algorithms, runtime discovery, dynamic loading, strings and validation.
 
-This repository now contains a local, independently buildable **copy** of provider `gregorian`. `src/provider.c` contains the selected native ABI adapter. The other files under `src/` contain only reached supporting implementation definitions; `include/` contains the required Common ABI headers and this provider's build configuration.
+Source uses the exact Common 1.19.80 submodule at dc4aac326964ca4400b6e21851d16eea674040c8.
+The Makefile compiles Common's own static archive from that submodule and links against it.
+No include/infiltratr headers and no src/{arithmetic,core,dynlib,temporal}.c copies remain.
 
-The original implementation, combined build and installed package remain in Common. Nothing is deleted from Common, and no current package ownership is changed.
-
-## Copied shared code
-
-Required shared helpers are copied locally, including arithmetic, date coordinates, localization or ICU bridging where this provider uses them. Multiple provider repositories intentionally contain their own copies of these helpers. Combined implementation files were selected and reduced to this provider's reachable operations and data; unrelated executable provider implementations are excluded.
-
-Public ABI declarations preserve compatibility with existing consumers. Private selector numeric values are retained where needed, while the other private selectors are removed. No other provider is registered or exported by this module.
-
-## Native resource contract
-
-- **Stable identity:** `gregorian`, kind `calendar`, canonical name `Gregorian Calendar`.
-- **Metadata entry:** `infiltratr_temporal_resource_metadata_v1`.
-- **Executable entry:** `infiltratr_temporal_calendar_provider_v1`.
-- **Canonical file:** `Gregorian Calendar.so`.
-- **Native directory:** `/System/Resources/Calendars`.
-- **Consumers:** Common's validated loader, used by Calendar, Files, System Settings and other compatible clients.
-- **Failure boundaries:** a missing or invalid provider is unavailable; it must not be replaced by a different provider or alter canonical instants.
-- **Trust boundary:** native module code executes in the loading process and is intended for trusted installed resources.
-
-## Build and packaging
-
-The local `Makefile` builds one canonically named shared object directly from this repository, with hidden helper symbols and only the two versioned native entry points exported. It requires no Common checkout, Common archive, sibling resource repository or source download.
-
-The existing Common resource package continues to own the installed path. An independent installer, package handover, release workflow and published release are separate work. This source copy does not claim those steps are complete.
-
-See [provenance](../SOURCE.md), [file manifest](../SOURCE-MANIFEST.json), [model](MODEL.md) and [validation](VALIDATION.md).
+The source ZIP and native .run installer snapshot that exact reviewed Common source,
+allowing offline release installation without a separately provisioned Common runtime.
+Independent provider fixtures, calendar math and ICU-specific behaviour remain local.
+The historical SOURCE-MANIFEST.json records the origin of the original copied implementation
+but no longer describes active Common source ownership. All release tests must pass before merge.
