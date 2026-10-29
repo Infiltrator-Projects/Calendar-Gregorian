@@ -1,0 +1,77 @@
+{
+  "title": "Gregorian Calendar",
+  "intro": "The Gregorian calendar is the civil calendar used in most of the world today. It organises the solar year into twelve unequal months and includes leap days to keep the dates aligned with the seasons.",
+  "summary": "12 months. Usually 365 days; 366 in leap years. A leap day is added to February according to a century-aware rule.",
+  "origin": "Introduced under Pope Gregory XIII in 1582 as a reform of the Julian calendar. Different countries adopted it at different times.",
+  "ring_label": "12",
+  "diagram_title": "TWELVE MONTHS AND LEAP DAYS",
+  "structure": "A year has twelve months. Most have 30 or 31 days. February has 28 days in an ordinary year and 29 in a leap year.",
+  "diagram_caption": "JANUARY TO DECEMBER  /  FEBRUARY IS VARIABLE",
+  "sections": [
+    {
+      "name": "January",
+      "days": "31",
+      "special": false
+    },
+    {
+      "name": "February",
+      "days": "28/29",
+      "special": true
+    },
+    {
+      "name": "March",
+      "days": "31",
+      "special": false
+    },
+    {
+      "name": "April",
+      "days": "30",
+      "special": false
+    },
+    {
+      "name": "May",
+      "days": "31",
+      "special": false
+    },
+    {
+      "name": "June",
+      "days": "30",
+      "special": false
+    },
+    {
+      "name": "July",
+      "days": "31",
+      "special": false
+    },
+    {
+      "name": "August",
+      "days": "31",
+      "special": false
+    },
+    {
+      "name": "September",
+      "days": "30",
+      "special": false
+    },
+    {
+      "name": "October",
+      "days": "31",
+      "special": false
+    },
+    {
+      "name": "November",
+      "days": "30",
+      "special": false
+    },
+    {
+      "name": "December",
+      "days": "31",
+      "special": false
+    }
+  ],
+  "pattern_note": "A year divisible by four usually has a leap day. Century years do not, unless divisible by 400. That is why 1900 was not a leap year, but 2000 was.",
+  "history": "The reform corrected the long-term seasonal drift of the Julian calendar. Adoption was gradual: the date skipped during local transitions differed by place, and some countries changed centuries later.",
+  "example": "In 2024, February had 29 days. In 2025 it had 28. This changes February's length but not the order of dates or months.",
+  "limits": "This software applies Gregorian rules to dates even before 1582 (a proleptic calendar). It does not recreate each country's historical switch from a different calendar.",
+  "source": "https://github.com/Infiltrator-Projects/Calendar-Gregorian"
+}
