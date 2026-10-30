@@ -79,11 +79,7 @@ provider_fields(const InfiltratrTemporalCalendarProvider *provider,
         return false;
 
     calendar_jdn_to_gregorian(jdn, &year, &month, &day);
-    *fields = (InfiltratrTemporalCalendarFields){
-        .month = month,
-        .day = day,
-        .special = false
-    };
+    *fields = InfiltratrTemporalCalendarFields{0, month, day, 0, false};
     set_signed_year(year, fields);
     return true;
 }
@@ -180,39 +176,29 @@ provider_add_years(const InfiltratrTemporalCalendarProvider *provider,
 }
 
 static const InfiltratrTemporalResourceMetadata gregorian_metadata = {
-    .struct_size = sizeof(InfiltratrTemporalResourceMetadata),
-    .abi_version = INFILTRATR_TEMPORAL_RESOURCE_METADATA_ABI,
-    .kind = INFILTRATR_TEMPORAL_RESOURCE_CALENDAR,
-    .id = "gregorian",
-    .name = INFILTRATR_TEMPORAL_DISPLAY_NAME,
-    .supports_seconds = false,
-    .requires_latitude = false,
-    .requires_longitude = false
+    sizeof(InfiltratrTemporalResourceMetadata), INFILTRATR_TEMPORAL_RESOURCE_METADATA_ABI,
+    INFILTRATR_TEMPORAL_RESOURCE_CALENDAR, "gregorian", INFILTRATR_TEMPORAL_DISPLAY_NAME,
+    false, false, false
 };
 
 static const InfiltratrTemporalCalendarProvider gregorian_provider = {
-    .struct_size = sizeof(InfiltratrTemporalCalendarProvider),
-    .abi_version = INFILTRATR_TEMPORAL_CALENDAR_PROVIDER_ABI,
-    .calendar_id = "gregorian",
-    .fields_from_jdn = provider_fields,
-    .format = provider_format,
-    .period_start = provider_period_start,
-    .add_periods = provider_add_periods,
-    .add_years = provider_add_years
+    sizeof(InfiltratrTemporalCalendarProvider), INFILTRATR_TEMPORAL_CALENDAR_PROVIDER_ABI,
+    "gregorian", provider_fields, provider_format, provider_period_start,
+    provider_add_periods, provider_add_years
 };
 
-CALENDAR_RESOURCE_EXPORT const InfiltratrTemporalResourceMetadata *
+extern "C" CALENDAR_RESOURCE_EXPORT const InfiltratrTemporalResourceMetadata *
 infiltratr_temporal_resource_metadata_v1(void);
-CALENDAR_RESOURCE_EXPORT const InfiltratrTemporalCalendarProvider *
+extern "C" CALENDAR_RESOURCE_EXPORT const InfiltratrTemporalCalendarProvider *
 infiltratr_temporal_calendar_provider_v1(void);
 
-CALENDAR_RESOURCE_EXPORT const InfiltratrTemporalResourceMetadata *
+extern "C" CALENDAR_RESOURCE_EXPORT const InfiltratrTemporalResourceMetadata *
 infiltratr_temporal_resource_metadata_v1(void)
 {
     return &gregorian_metadata;
 }
 
-CALENDAR_RESOURCE_EXPORT const InfiltratrTemporalCalendarProvider *
+extern "C" CALENDAR_RESOURCE_EXPORT const InfiltratrTemporalCalendarProvider *
 infiltratr_temporal_calendar_provider_v1(void)
 {
     return &gregorian_provider;
