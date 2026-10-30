@@ -4,6 +4,8 @@
 
 Gregorian civil arithmetic. This project represents one independently installable InfiltratorOS calendar resource. The calendar converts and presents dates according to its own rules; it is not a standalone desktop app.
 
+**Historical scope/accuracy:** Proleptic Gregorian rules are applied before historical local adoption; regional Julian-to-Gregorian changeover dates are not reconstructed.
+
 ## Implementation contract
 
 - **Model:** Resource-owned proleptic Gregorian arithmetic across the representable civil-date domain; locale-sensitive formatting remains ICU/CLDR-backed.
@@ -16,7 +18,7 @@ Gregorian civil arithmetic. This project represents one independently installabl
 
 **Independent source, native installation and releases.** This repository contains the implementation of `gregorian`, the supporting code it needs, a one-provider `Makefile` and focused regression fixtures. The copy is based on Common 1.19.78 at `8d60662114e3`; the original Common source remains unchanged.
 
-Run `make` to produce `build/Gregorian Calendar.so` and `make check` to run this provider's checks. No Common checkout or Common archive is required. Independent releases now provide a portable amd64 Debian package, a hardware-native source installer and the complete source ZIP. The original Common source is retained.
+Run `make` to produce `build/Gregorian Calendar.so` and `make check` to run this provider's checks. Builds require the pinned authoritative Common submodule; no copied Common source or Python runtime is required. Independent releases now provide a portable amd64 Debian package, a hardware-native source installer and the complete source ZIP. The original Common source is retained.
 
 See [source provenance and build details](SOURCE.md), [source manifest](SOURCE-MANIFEST.json) and [recorded validation](VALIDATION-RESULTS.json).
 
