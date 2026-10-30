@@ -38,7 +38,22 @@ tag = "v" + contract["version"]
 identity = gh("api", f"repos/{repository}/git/ref/tags/{tag}", optional=True)
 if identity:
     identity = json.loads(identity)["object"]
-    assert identity["sha"] == source and identity["type"] == "commit", "Advance VERSION before changing a released product"
+    assert identity["type"] == "commit", "Released tag does not point to a commit"
+    if identity["sha"] != source:
+        # An already published VERSION is immutable. A workflow-only maintenance
+        # commit must not attempt a second release, but a product/source change
+        # without a version bump must still fail closed.
+        comparison = json.loads(gh("api", f"repos/{repository}/compare/{identity['sha']}...{source}"))
+        files = comparison.get("files", [])
+        governance = all(
+            entry["filename"].startswith(".github/workflows/")
+            or entry["filename"] == "packaging/publish.py"
+            for entry in files
+        )
+        if comparison.get("status") in ("ahead", "identical") and governance and len(files) < 300:
+            print("Existing published version and unchanged product inputs; governance-only push skipped.")
+            raise SystemExit(0)
+        raise AssertionError("Advance VERSION before changing a released product")
 existing = gh("release", "view", tag, "--json", "isDraft,targetCommitish", optional=True)
 paths = [str(root / x) for x in assets]
 if existing:
