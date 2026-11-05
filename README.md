@@ -52,4 +52,4 @@ Each package owns only this provider and its passive documentation. Its `Replace
 
 ## User documentation
 
-Release 1.0.2 installs only `Gregorian Calendar.so` and the illustrated `Gregorian Calendar.pdf`. Development records stay in the repository; source revision, CPU optimisation and SHA-256 checks are retained in Debian control metadata. The guide is built from `docs/GUIDE.json`.
+Release 1.0.2 installs only `Gregorian Calendar.so` and the illustrated `Calendar-Gregorian.pdf`. Development records stay in the repository; source revision, CPU optimisation and SHA-256 checks are retained in Debian control metadata. The guide is built from `docs/GUIDE.json`.
