@@ -17,6 +17,7 @@ CXX_SOURCES := $(shell find src -type f -name '*.cpp' | LC_ALL=C sort)
 C_OBJECTS := $(patsubst src/%.c,$(BUILD_DIR)/obj/%.o,$(C_SOURCES))
 CXX_OBJECTS := $(patsubst src/%.cpp,$(BUILD_DIR)/obj/%.o,$(CXX_SOURCES))
 TARGET := $(BUILD_DIR)/$(RESOURCE_NAME).so
+TARGET_STAMP := $(BUILD_DIR)/.provider-built
 DEP_CFLAGS := $(shell $(PKG_CONFIG) --cflags $(DEPENDENCIES))
 DEP_LIBS := $(shell $(PKG_CONFIG) --libs glib-2.0)
 CPPFLAGS += -I$(COMMON_DIR)/include -Iinclude -Isrc -Isrc/support -Isrc/calendars -Isrc/calendars/engine \
@@ -44,15 +45,16 @@ $(BUILD_DIR)/obj/%.o: src/%.c Makefile | common-check
 $(BUILD_DIR)/obj/%.o: src/%.cpp Makefile | common-check
 	@mkdir -p "$(@D)"
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(DEP_CFLAGS) -MMD -MP -c "$<" -o "$@"
-all: $(TARGET)
-$(TARGET): $(COMMON_ARCHIVE) $(C_OBJECTS) $(CXX_OBJECTS) exports.map Makefile
+all: $(TARGET_STAMP)
+$(TARGET_STAMP): $(COMMON_ARCHIVE) $(C_OBJECTS) $(CXX_OBJECTS) exports.map Makefile
 	@mkdir -p "$(BUILD_DIR)"
 	$(CXX) -shared $(C_OBJECTS) $(CXX_OBJECTS) $(COMMON_ARCHIVE) \
 	    -Wl,--version-script=exports.map -Wl,-z,defs -Wl,--gc-sections \
 	    $(LDFLAGS) -o "$(TARGET)" $(LDLIBS)
-check: $(TARGET)
+	@touch "$@"
+check: $(TARGET_STAMP)
 	bash common/calendar-tools/check.sh "$(TARGET)"
-audit-authorities: $(TARGET)
+audit-authorities: $(TARGET_STAMP)
 	bash common/calendar-tools/check.sh "$(TARGET)" --authorities
 -include $(C_OBJECTS:.o=.d) $(CXX_OBJECTS:.o=.d)
 clean:
