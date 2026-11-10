@@ -35,24 +35,26 @@ common-check:
 	@grep -qx "$(COMMON_VERSION)" "$(COMMON_DIR)/VERSION" || exit 1
 	@if test -e "$(COMMON_DIR)/.git"; then git -C "$(COMMON_DIR)" rev-parse HEAD | grep -qx "$(COMMON_REVISION)" || exit 1; fi
 	@test ! -d include/infiltratr || { echo "Copied Common headers forbidden"; exit 1; }
-$(COMMON_ARCHIVE): common-check
+$(COMMON_ARCHIVE): Makefile | common-check
 	@mkdir -p "$(COMMON_BUILD_DIR)"
 	$(MAKE) -C "$(COMMON_DIR)" CC="$(CC)" BUILD_DIR="$(COMMON_BUILD_DIR)" CFLAGS="$(CFLAGS) -Wno-missing-profile" all
-$(BUILD_DIR)/obj/%.o: src/%.c
+$(BUILD_DIR)/obj/%.o: src/%.c Makefile | common-check
 	@mkdir -p "$(@D)"
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEP_CFLAGS) -c "$<" -o "$@"
-$(BUILD_DIR)/obj/%.o: src/%.cpp
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEP_CFLAGS) -MMD -MP -c "$<" -o "$@"
+$(BUILD_DIR)/obj/%.o: src/%.cpp Makefile | common-check
 	@mkdir -p "$(@D)"
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(DEP_CFLAGS) -c "$<" -o "$@"
-all: $(COMMON_ARCHIVE) $(C_OBJECTS) $(CXX_OBJECTS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(DEP_CFLAGS) -MMD -MP -c "$<" -o "$@"
+all: $(TARGET)
+$(TARGET): $(COMMON_ARCHIVE) $(C_OBJECTS) $(CXX_OBJECTS) exports.map Makefile
 	@mkdir -p "$(BUILD_DIR)"
 	$(CXX) -shared $(C_OBJECTS) $(CXX_OBJECTS) $(COMMON_ARCHIVE) \
 	    -Wl,--version-script=exports.map -Wl,-z,defs -Wl,--gc-sections \
 	    $(LDFLAGS) -o "$(TARGET)" $(LDLIBS)
-check: all
+check: $(TARGET)
 	bash common/calendar-tools/check.sh "$(TARGET)"
-audit-authorities: all
+audit-authorities: $(TARGET)
 	bash common/calendar-tools/check.sh "$(TARGET)" --authorities
+-include $(C_OBJECTS:.o=.d) $(CXX_OBJECTS:.o=.d)
 clean:
 	rm -rf "$(BUILD_DIR)"
 release:
