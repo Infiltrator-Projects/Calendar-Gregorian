@@ -18,6 +18,6 @@
 - [x] Transfer this installed module through dpkg Replaces; retain Common source.
 - [ ] Verify installed consumer integration and publish qualified releases.
 
-Independent delivery is now implemented in `packaging/` and `.github/workflows/release.yml`; qualification evidence and model limits remain in the validation documents.
+Independent delivery is implemented by the provider's `.github/workflows/release.yml` and pinned Common calendar tools. The checked extraction items above are historical; qualification evidence and model limits remain in the validation documents.
 
 See [source provenance](../SOURCE.md) and [recorded results](../VALIDATION-RESULTS.json).

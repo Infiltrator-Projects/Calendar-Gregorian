@@ -3,6 +3,7 @@
 This repository contains source for exactly one `calendar` provider, stable ID `gregorian`. The Common original is retained.
 
 - [Overview](../README.md) — identity, model, current status and source links.
+- [User manual source](GUIDE.json) — Gregorian structure, leap-year rules, history and limitations.
 - [Model](MODEL.md) — maintained interpretation and fidelity boundaries.
 - [Architecture](ARCHITECTURE.md) — local source, helpers and native ABI.
 - [Validation](VALIDATION.md) — completed copy checks and remaining qualification.

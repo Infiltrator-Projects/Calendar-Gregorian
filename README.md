@@ -16,7 +16,7 @@ Gregorian civil arithmetic. This project represents one independently installabl
 
 ## Current project status
 
-**Independent source, native installation and releases.** This repository contains the implementation of `gregorian`, the supporting code it needs, a one-provider `Makefile` and focused regression fixtures. The copy is based on Common 1.19.78 at `8d60662114e3`; the original Common source remains unchanged.
+**Independent source, native installation and releases.** This repository contains the implementation of `gregorian`, the supporting code it needs, a one-provider `Makefile` and focused regression fixtures. The initial extraction was based on Common 1.19.78 at `8d60662114e3`; current builds use the authoritative Common submodule pinned by the Makefile.
 
 Run `make` to produce `build/Gregorian Calendar.so` and `make check` to run this provider's checks. Builds require the pinned authoritative Common submodule; no copied Common source or Python runtime is required. Independent releases now provide a portable amd64 Debian package, a small hardware-native network installer; GitHub supplies the automatic tag source ZIP. The original Common source is retained.
 
@@ -52,6 +52,4 @@ Each package owns only this provider and its passive documentation. Its `Replace
 
 ## User documentation
 
-Release 1.0.2 installs only `Gregorian Calendar.so` and the illustrated `Calendar-Gregorian.pdf`. Development records stay in the repository; source revision, CPU optimisation and SHA-256 checks are retained in Debian control metadata. The guide is built from `docs/GUIDE.json`.
-
-Native release installers fetch the exact provider Git commit and its pinned Common submodule, verify both identities, and build locally. No source or binary payload is embedded in the RUN; GitHub provides its automatic source archive separately.
+The installed component owns only its native `.so` and `Calendar-Gregorian.pdf`. The consolidated [user-guide source](docs/GUIDE.json) is maintained independently of build and qualification records. The currently pinned Common guide generator uses the README summary and scope; the revised shared renderer must be adopted before packaging uses the complete guide.

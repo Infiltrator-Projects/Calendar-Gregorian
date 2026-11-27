@@ -35,4 +35,4 @@ This description is derived from the existing Common resource definition, Calend
 
 ## Source copy status
 
-The model-specific implementation and required helpers are now copied into this repository. Its behaviour was compared with the original Common 1.19.78 provider; this adds copy-regression evidence, not a new independent historical audit. See [source provenance](../SOURCE.md) and [validation results](../VALIDATION-RESULTS.json). The original Common implementation remains in place.
+The initial extraction copied the model-specific implementation and required helpers into this repository. The current build uses the provider-specific implementation and authoritative Common submodule; the copy results below remain historical evidence. Its behaviour was compared with the original Common 1.19.78 provider; this adds copy-regression evidence, not a new independent historical audit. See [source provenance](../SOURCE.md) and [validation results](../VALIDATION-RESULTS.json). The original Common implementation remains in place.

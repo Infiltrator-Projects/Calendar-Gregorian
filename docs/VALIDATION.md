@@ -1,6 +1,6 @@
 # Gregorian Calendar — copy validation
 
-## Completed checks
+## Historical extraction checks (Common 1.19.78)
 
 - [x] Record Common 1.19.78 source revision `8d60662114e3052380f6f88ad3cacd9732ae7131` and original/copy file hashes.
 - [x] Copy the selected `gregorian` provider and the supporting definitions and headers it needs; retain Common unchanged.
@@ -16,8 +16,7 @@ The comparison verifies that splitting and copying the code preserved the existi
 
 - [ ] Add independent historical/reference evidence beyond the preserved model audit where required.
 - [ ] Qualify other compiler, operating-system, runtime and architecture baselines.
-- [ ] Add and qualify standalone release CI if independent releases are requested.
-- [ ] Create and test an independent package/installer, including upgrade/removal and any coordinated package ownership transition.
+- [ ] Qualify the current standalone release CI and independent package/installer, including upgrade/removal and coordinated package ownership transition, for the exact distributed revision.
 - [ ] Test actual installed consumer discovery through the native resource directory.
 - [ ] Publish only artifacts from an explicitly qualified release state.
 

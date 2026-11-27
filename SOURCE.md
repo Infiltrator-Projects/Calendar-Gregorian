@@ -1,6 +1,6 @@
 # Gregorian Calendar — source copy record
 
-This repository now contains its own implementation of provider `gregorian`, its required supporting C code and headers, a one-provider build, and copy-regression fixtures.
+This document records the initial extraction of provider `gregorian` from Common 1.19.78. Current builds use the independent provider implementation and the authoritative pinned Common submodule.
 
 ## Origin and scope
 
@@ -12,7 +12,7 @@ This repository now contains its own implementation of provider `gregorian`, its
 - **Native resource path:** `/System/Resources/Calendars/Gregorian Calendar.so`.
 - **Original Common code:** retained unchanged. The original extraction was a copy, not a removal. Independent packaging now transfers only this installed module through dpkg; Common source remains retained.
 
-Combined source files were selected for this provider and split by keeping its existing operations, data and required helper definitions. Inactive provider branches and unreachable definitions were removed. Shared arithmetic, formatting, localization and runtime-bridge helpers are intentionally copied into every repository that needs them. The local build uses only this repository's source and platform dependencies; it does not fetch or link a Common checkout/archive.
+Combined source files were selected for this provider and split by keeping its existing operations, data and required helper definitions. Inactive provider branches and unreachable definitions were removed. At the time of extraction, shared helpers were copied locally. That historical arrangement was superseded by the Common submodule and static archive; the current Makefile rejects copied Common headers.
 
 Public Common ABI headers retain compatibility declarations. Those declarations do not install or implement the other providers. The built module exports only its metadata entry and its `calendar` operation-table entry. Existing notices and the original GPL license are retained.
 
@@ -20,14 +20,14 @@ Public Common ABI headers retain compatibility declarations. Those declarations 
 
 ## Build and check
 
-Use a C11 compiler, GNU Make, Python 3 and pkg-config. Development packages required by this copy: glib-2.0, icu-i18n.
+Use C11 and C++20 compilers, GNU Make and pkg-config; initialise the exact Common submodule recorded by the Makefile. The provider uses the GLib and ICU development packages.
 
 ```sh
 make
 make check
 ```
 
-The build directly creates `build/Gregorian Calendar.so`. ICU-backed providers retain the copied runtime ABI bridge and use the host's ICU/CLDR data. Independent release and installation tools are now copied into this repository; see `docs/PACKAGING.md`.
+The build directly creates `build/Gregorian Calendar.so`. The provider uses the host's ICU/CLDR data; the pinned Common submodule supplies the ICU bridge, release and installation tools. See `docs/PACKAGING.md`.
 
 ## Recorded checks
 

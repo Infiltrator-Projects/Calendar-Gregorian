@@ -1,12 +1,7 @@
 {
   "title": "Gregorian Calendar",
-  "intro": "The Gregorian calendar is the civil calendar used in most of the world today. It organises the solar year into twelve unequal months and includes leap days to keep the dates aligned with the seasons.",
-  "summary": "12 months. Usually 365 days; 366 in leap years. A leap day is added to February according to a century-aware rule.",
-  "origin": "Introduced under Pope Gregory XIII in 1582 as a reform of the Julian calendar. Different countries adopted it at different times.",
-  "ring_label": "12",
-  "diagram_title": "TWELVE MONTHS AND LEAP DAYS",
-  "structure": "A year has twelve months. Most have 30 or 31 days. February has 28 days in an ordinary year and 29 in a leap year.",
-  "diagram_caption": "JANUARY TO DECEMBER  /  FEBRUARY IS VARIABLE",
+  "intro": "The Gregorian calendar is the civil calendar used in most of the world today. It organises dates according to a solar-year approximation.",
+  "structure": "A year has twelve unequal months, totaling 365 days in an ordinary year and 366 in a leap year. The month sequence and lengths are listed below; only February changes length.",
   "sections": [
     {
       "name": "January",
@@ -69,9 +64,13 @@
       "special": false
     }
   ],
-  "pattern_note": "A year divisible by four usually has a leap day. Century years do not, unless divisible by 400. That is why 1900 was not a leap year, but 2000 was.",
-  "history": "The reform corrected the long-term seasonal drift of the Julian calendar. Adoption was gradual: the date skipped during local transitions differed by place, and some countries changed centuries later.",
-  "example": "In 2024, February had 29 days. In 2025 it had 28. This changes February's length but not the order of dates or months.",
-  "limits": "This software applies Gregorian rules to dates even before 1582 (a proleptic calendar). It does not recreate each country's historical switch from a different calendar.",
-  "source": "https://github.com/Infiltrator-Projects/Calendar-Gregorian"
+  "pattern_note": "A year divisible by four is a leap year, except a century year not divisible by 400. Thus 1900 was ordinary and 2000 was a leap year.",
+  "example": "February 2024 had 29 days and February 2025 had 28; the leap-day rule changes the length of February, not the order of months.",
+  "history": "Introduced under Pope Gregory XIII in 1582 to correct the Julian calendar's long-term seasonal drift. Adoption was gradual: regional date skips and transition dates differed, and some countries changed centuries later.",
+  "model": "The resource calculates proleptic Gregorian civil dates across its representable domain. Locale-sensitive formatting uses ICU/CLDR; all date navigation is anchored to the underlying day coordinate.",
+  "limits": "Before historical local adoption, the provider extends Gregorian rules backwards mathematically. It does not reconstruct each country's transition from an earlier calendar.",
+  "sources": [
+    "https://github.com/Infiltrator-Projects/Calendar-Gregorian",
+    "Computational model: https://github.com/Infiltrator-Projects/Calendar-Gregorian/blob/main/docs/MODEL.md"
+  ]
 }
