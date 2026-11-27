@@ -12,4 +12,4 @@ The native package has version `VERSION+native1`; the generic release uses `VERS
 
 The release workflow installs and tests the exact native `.run` on Ubuntu 24.04, qualifies the two uploaded artifacts, stages a draft release, verifies every remotely uploaded byte, and publishes that draft. Published releases are immutable; product changes require advancing `VERSION`. A rerun for a superseded main commit does not publish.
 
-The provider-specific user-guide source is [GUIDE.json](GUIDE.json); the Common documentation renderer produces the installed PDF. The currently pinned renderer predates full structured-guide support. Technical documents stay in GitHub and no BUILD-INFO file is installed.
+The provider-specific user-guide source is [GUIDE.json](GUIDE.json); the Common documentation renderer produces the installed PDF. The pinned renderer uses the complete structured guide. Technical documents stay in GitHub and no BUILD-INFO file is installed.

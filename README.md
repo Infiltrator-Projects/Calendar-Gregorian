@@ -52,4 +52,4 @@ Each package owns only this provider and its passive documentation. Its `Replace
 
 ## User documentation
 
-The installed component owns only its native `.so` and `Calendar-Gregorian.pdf`. The consolidated [user-guide source](docs/GUIDE.json) is maintained independently of build and qualification records. The currently pinned Common guide generator uses the README summary and scope; the revised shared renderer must be adopted before packaging uses the complete guide.
+The installed component owns only its native `.so` and `Calendar-Gregorian.pdf`. The consolidated [user-guide source](docs/GUIDE.json) is maintained independently of build and qualification records. The pinned Common renderer generates the complete PDF from the structured guide.
